@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.db import models
 
 
@@ -17,7 +16,7 @@ class Client(models.Model):
 
 
 class Message(models.Model):
-    subject = models.CharField(max_length=255, unique=True, verbose_name='Тема')
+    subject = models.CharField(max_length=255, verbose_name='Тема')
     body = models.TextField(verbose_name='Текст')
 
     class Meta:
@@ -43,7 +42,7 @@ class Mailing(models.Model):
     start_date = models.DateTimeField(default=datetime.now)
     periodicity = models.CharField(max_length=50, choices=PERIODICITY_CHOICES, default=None)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='created')
-    message = models.OneToOneField(Message, on_delete=models.CASCADE)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client, related_name='mailings')
 
     class Meta:

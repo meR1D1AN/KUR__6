@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+# from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from service_customer.models import *
@@ -86,8 +87,42 @@ class MailingCreateView(CreateView):
     model = Mailing
     fields = ['start_date', 'periodicity', 'status', 'message', 'clients']
 
-    def get_success_url(self):
-        return reverse_lazy('service_customer:mailing_list')
+    # def get_success_url(self):
+    #     return reverse_lazy('service_customer:mailing_list')
+
+    def get(self, request):
+        messages = Message.objects.all()
+        clients = Client.objects.all()
+        return render(request, 'service_customer/mailing_create.html', {'messages': messages, 'clients': clients})
+
+    def post(self, request):
+        start_date = request.POST.get('start_date')
+        periodicity = request.POST.get('periodicity')
+        status = request.POST.get('status')
+        message_id = request.POST.get('message')
+        client_ids = request.POST.getlist('clients')
+
+        message = Message.objects.get(id=message_id)
+        mailing = Mailing.objects.create(start_date=start_date, periodicity=periodicity, status=status, message=message)
+
+        for client_id in client_ids:
+            client = Client.objects.get(id=client_id)
+            mailing.clients.add(client)
+
+        mailing.save()
+        return redirect('service_customer:mailing_list')
+
+    # def form_valid(self, form):
+    #     mailing = form.save(commit=False)
+    #     mailing.user = self.request.user
+    #
+    #     # Проверяем, что выбранный пользователь не имеет рассылки с такой же периодичностью
+    #     if Mailing.objects.filter(Q(user=mailing.user) & Q(periodicity=mailing.periodicity)).exists():
+    #         form.add_error(None, "Выбранный пользователь уже имеет рассылку с такой же периодичностью.")
+    #         return self.form_invalid(form)
+    #
+    #     mailing.save()
+    #     return super().form_valid(form)
 
 
 class MailingUpdateView(UpdateView):

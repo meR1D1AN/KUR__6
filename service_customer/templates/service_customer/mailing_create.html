@@ -1,0 +1,49 @@
+<!-- service_customer/templates/service_customer/mailing_create.html -->
+
+{% extends "service_customer/base.html" %}
+
+{% block title %}Создание Рассылки{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Создание Рассылки</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="start_date">Дата начала:</label>
+        <input type="datetime-local" class="form-control" id="start_date" name="start_date" required>
+    </div>
+    <div class="form-group">
+        <label for="periodicity">Периодичность:</label>
+        <select class="form-control" id="periodicity" name="periodicity" required>
+            <option value="daily">Каждый день</option>
+            <option value="weekly">Каждую неделю</option>
+            <option value="monthly">Каждый месяц</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="status">Статус:</label>
+        <select class="form-control" id="status" name="status" required>
+            <option value="created">Создана</option>
+            <option value="started">Начата</option>
+            <option value="finished">Завершена</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="message">Сообщение:</label>
+        <select class="form-control" id="message" name="message" required>
+            {% for message in messages %}
+            <option value="{{ message.id }}">{{ message.subject }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="clients">Клиенты:</label>
+        <select class="form-control" id="clients" name="clients" multiple required>
+            {% for client in clients %}
+            <option value="{{ client.id }}">{{ client.full_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать Рассылку</button>
+</form>
+{% endblock %}
