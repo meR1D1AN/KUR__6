@@ -11,7 +11,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('subject',)
+    list_display = ('subject', 'body')
     search_fields = ('subject',)
 
 
@@ -25,6 +25,6 @@ class MailingAdmin(admin.ModelAdmin):
 
 @admin.register(MailingAttempt)
 class MailingAttemptAdmin(admin.ModelAdmin):
-    list_display = ('id', 'mailing', 'attempt_date', 'status')
+    list_display = ('id', 'mailing', 'attempt_date', 'status', 'server_response')
     search_fields = ('status', 'mailing__id')
     list_filter = ('status', 'attempt_date')

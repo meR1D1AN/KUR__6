@@ -1,0 +1,24 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Удалить попытку рассылки{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Удаление попытки рассылки</h1>
+<table class="table text-center">
+    <tr>
+        <th>Вы уверены, что хотите удалить попытку расслыки</th>
+        <th><strong>"{{ mailingattempt.mailing }}"</strong>?</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить</button>
+                <a class="btn btn-secondary" href="{% url 'service_customer:mailing_attempt_detail' mailingattempt.pk %}">Отмена</a>
+            </form>
+        </th>
+    </tr>
+</table>
+{% endblock %}

@@ -23,10 +23,10 @@ def send_mailing():
                     recipient_list=[client.email],
                     fail_silently=False,
                 )
-                status = 'Success'
-                server_response = 'Email sent successfully.'
+                status = 'Успешная рассылка'
+                server_response = 'Электронное письмо успешно отправлено.'
             except Exception as e:
-                status = 'Failure'
+                status = 'Отказ'
                 server_response = str(e)
 
             MailingAttempt.objects.create(
@@ -35,12 +35,12 @@ def send_mailing():
                 server_response=server_response
             )
 
-        # Update the status of the mailing
-        mailing.status = 'finished'
+        # Обновление статуса рассылки
+        mailing.status = 'Рассылка завершена'
         mailing.save()
 
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(send_mailing, 'interval', minutes=1)
+    scheduler.add_job(send_mailing, 'interval', seconds=10)
     scheduler.start()

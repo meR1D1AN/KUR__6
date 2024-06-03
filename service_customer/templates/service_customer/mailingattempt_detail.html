@@ -1,0 +1,37 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Просмотр попытки рассылки{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Просмотр попытки рассылки</h1>
+<table class="table text-center">
+    <tr>
+        <th>ID</th>
+        <td>{{ mailingattempt.id }}</td>
+    </tr>
+    <tr>
+        <th>Рассылка</th>
+        <td>{{ mailingattempt.mailing }}</td>
+    </tr>
+    <tr>
+        <th>Дата начала рассылки</th>
+        <td>{{ mailingattempt.attempt_date }}</td>
+    </tr>
+    <tr>
+        <th>Статус</th>
+        <td>{{ mailingattempt.status }}</td>
+    </tr>
+    <tr>
+        <th>Ответ сервера</th>
+        <td>{{ mailingattempt.server_response }}</td>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <a class="btn btn-danger" href="{% url 'service_customer:mailing_attempt_delete' mailingattempt.id %}">Удалить</a>
+            <a class="btn btn-secondary" href="{% url 'service_customer:mailing_attempt_list' %}">Назад к списку</a>
+        </th>
+    </tr>
+</table>
+{% endblock %}

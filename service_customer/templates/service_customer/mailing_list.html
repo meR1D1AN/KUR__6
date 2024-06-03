@@ -23,7 +23,7 @@
         <td>{{ mailing.id }}</td>
         <td>
             {% for client in mailing.clients.all %}
-                {{ client.full_name }},
+                {{ client.full_name }}<br>
             {% endfor %}
         </td>
         <td>{{ mailing.start_date }}</td>

@@ -4,7 +4,7 @@ from service_customer.views import *
 app_name = 'service_customer'
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    path('', ClientListView.as_view(), name='home'),
     # Client URLs
     path('clients/', ClientListView.as_view(), name='client_list'),
     path('clients/<int:pk>/', ClientDetailView.as_view(), name='client_detail'),
@@ -25,4 +25,9 @@ urlpatterns = [
     path('mailings/create/', MailingCreateView.as_view(), name='mailing_create'),
     path('mailings/<int:pk>/update/', MailingUpdateView.as_view(), name='mailing_update'),
     path('mailings/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing_delete'),
+
+    # Mailing Attempt URLs
+    path('mailing_attempts/', MailingAttemptListView.as_view(), name='mailing_attempt_list'),
+    path('mailing_attempts/<int:pk>/', MailingAttemptDetailView.as_view(), name='mailing_attempt_detail'),
+    path('mailing_attempts/<int:pk>/delete/', MailingAttemptDeleteView.as_view(), name='mailing_attempt_delete'),
 ]

@@ -26,7 +26,7 @@
         <th>Клиент</th>
         <td>
             {% for client in mailing.clients.all %}
-                {{ client.full_name }},
+                {{ client.full_name }}<br>
             {% endfor %}
         </td>
     </tr>
