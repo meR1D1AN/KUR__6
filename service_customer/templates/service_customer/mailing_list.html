@@ -1,0 +1,55 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Рассылки{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Рассылки</h1>
+<table class="table table-hover text-center">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Клиент</th>
+        <th>Дата начала</th>
+        <th>Периодичность</th>
+        <th>Статус</th>
+        <th>Сообщение</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for mailing in object_list %}
+    <tr>
+        <td>{{ mailing.id }}</td>
+        <td>
+            {% for client in mailing.clients.all %}
+                {{ client.full_name }},
+            {% endfor %}
+        </td>
+        <td>{{ mailing.start_date }}</td>
+        <td>{{ mailing.get_periodicity_display }}</td>
+        <td>{{ mailing.get_status_display }}</td>
+        <td>{{ mailing.message.subject }}</td>
+        <td>
+          <a class="btn btn-primary btn-sm" href="{% url 'service_customer:mailing_detail' mailing.id %}">Просмотр</a>
+          <a class="btn btn-warning btn-sm" href="{% url 'service_customer:mailing_update' mailing.id %}">Редактировать</a>
+          <a class="btn btn-danger btn-sm" href="{% url 'service_customer:mailing_delete' mailing.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <a class="btn btn-success" href="{% url 'service_customer:mailing_create' %}">Добавить новую рассылку</a>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+{% endblock %}

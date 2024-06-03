@@ -1,0 +1,31 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}{{ view.action }} Создание клиента сервиса{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Создание клиента сервиса</h1>
+<form method="post">
+    {% csrf_token %}
+    <table class="table text-center">
+        <tr>
+            <th>Полное Ф.И.О.</th>
+            <th>{{ form.full_name }}</th>
+        </tr>
+        <tr>
+            <th>Введите адрес электронной почты:</th>
+            <th>{{ form.email }}</th>
+        </tr>
+        <tr>
+            <th>Введите комментарий:</th>
+            <th>{{ form.comment }}</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+                <a class="btn btn-secondary" href="{% url 'service_customer:client_list' %}">Отмена</a>
+            </th>
+        </tr>
+    </table>
+</form>
+{% endblock %}

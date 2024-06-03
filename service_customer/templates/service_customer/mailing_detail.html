@@ -1,0 +1,42 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Просмотр рассылки{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Просмотр рассылки</h1>
+<table class="table text-center">
+    <tr>
+        <th>Дата начала рассылки и время</th>
+        <td>{{ mailing.start_date }}</td>
+    </tr>
+    <tr>
+        <th>Периодичность рассылки</th>
+        <td>{{ mailing.get_periodicity_display }}</td>
+    </tr>
+    <tr>
+        <th>Статус рассылки</th>
+        <td>{{ mailing.get_status_display }}</td>
+    </tr>
+    <tr>
+        <th>Шаблон сообщения</th>
+        <td>{{ mailing.message.subject }}</td>
+    </tr>
+    <tr>
+        <th>Клиент</th>
+        <td>
+            {% for client in mailing.clients.all %}
+                {{ client.full_name }},
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <a class="btn btn-primary" href="{% url 'service_customer:mailing_update' mailing.id %}">Редактировать</a>
+            <a class="btn btn-danger" href="{% url 'service_customer:mailing_delete' mailing.id %}">Удалить</a>
+            <a class="btn btn-secondary" href="{% url 'service_customer:mailing_list' %}">Назад к списку</a>
+        </th>
+    </tr>
+</table>
+{% endblock %}

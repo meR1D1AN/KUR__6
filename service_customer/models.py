@@ -1,50 +1,64 @@
+from datetime import datetime
+
 from django.db import models
 
-NULLABLE = {'null': True, 'blank': True}
 
-
-class Customer(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Имя')
-    surname = models.CharField(max_length=100, verbose_name='Фамилия')
-    patronymic = models.CharField(max_length=100, verbose_name='Отчество')
-    email = models.EmailField(verbose_name='Электронная почта')
-    comment = models.TextField(verbose_name='Комментарий')
+class Client(models.Model):
+    email = models.EmailField(unique=True, verbose_name='Введите электронную почту')
+    full_name = models.CharField(max_length=255, verbose_name='Полное Ф.И.О.')
+    comment = models.CharField(max_length=255, blank=True, null=True, verbose_name='Комментарий')
 
     class Meta:
-        verbose_name = 'Клиент сервиса'
-        verbose_name_plural = 'Клиенты сервиса'
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
 
     def __str__(self):
-        return f'{self.name} {self.surname} {self.patronymic}'
+        return f'{self.full_name}'
 
 
-class MailingList(models.Model):
-    send_date_mailing = models.DateTimeField(verbose_name='Дата рассылки')
-    periodicity = models.IntegerField(verbose_name='Периодичность рассылки')
-    mailing_status = models.BooleanField(verbose_name='Статус рассылки', default=False)
+class Message(models.Model):
+    subject = models.CharField(max_length=255, unique=True, verbose_name='Тема')
+    body = models.TextField(verbose_name='Текст')
+
+    class Meta:
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'
+
+    def __str__(self):
+        return f'{self.subject}'
+
+
+class Mailing(models.Model):
+    STATUS_CHOICES = [
+        ('created', 'Создана'),
+        ('started', 'Начата'),
+        ('finished', 'Завершена'),
+    ]
+    PERIODICITY_CHOICES = [
+        ('daily', 'Каждый день'),
+        ('weekly', 'Каждую неделю'),
+        ('monthly', 'Каждый месяц'),
+    ]
+
+    start_date = models.DateTimeField(default=datetime.now)
+    periodicity = models.CharField(max_length=50, choices=PERIODICITY_CHOICES, default='daily')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='created')
+    message = models.OneToOneField(Message, on_delete=models.CASCADE)
+    clients = models.ManyToManyField(Client, related_name='mailings')
 
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
 
     def __str__(self):
-        return f'{self.send_date_mailing}'
+        return f"Mailing {self.id} - {self.status}"
 
 
-class MessageMailing(models.Model):
-    email_subject = models.CharField(max_length=100, verbose_name='Тема письма')
-    email_text = models.TextField(verbose_name='Текст письма')
-    mailing = models.ForeignKey(MailingList, on_delete=models.CASCADE, verbose_name='Рассылка')
-
-    class Meta:
-        verbose_name = 'Сообщение рассылки'
-        verbose_name_plural = 'Сообщения рассылки'
+class MailingAttempt(models.Model):
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, default=1)
+    attempt_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50)
+    server_response = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.email_subject}'
-
-
-class MailingAttempted(models.Model):
-    date_and_time_of_last_attempt = models.DateTimeField(verbose_name='Дата и время последнего попытки рассылки')
-    status_attempt = models.BooleanField(verbose_name='Статус попытки рассылки', default=False)
-    mail_service_response = models.CharField(max_length=100, verbose_name='Ответ сервера', **NULLABLE)
+        return f"Attempt {self.id} for Mailing {self.mailing.id}"

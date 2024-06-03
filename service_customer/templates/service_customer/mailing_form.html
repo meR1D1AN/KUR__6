@@ -1,0 +1,70 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}{{ view.action }} Рассылка{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Рассылка</h1>
+<form method="post">
+    {% csrf_token %}
+    <table class="table text-center">
+        <tr>
+            <th>
+                <div class="form-group">
+                    <label for="id_start_date">Дата и время первой рассылки</label>
+                </div>
+            </th>
+            <th>
+                <input type="datetime-local" name="start_date" id="id_start_date" value="{{ form.start_date.value|date:'Y-m-d\TH:i' }}">
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="from-group">
+                    <label for="id_periodicity">Периодичность</label>
+                </div>
+            </th>
+            <th>
+                <div id="id_periodicity">{{ form.periodicity }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="from-group">
+                    <label for="id_status">Статус</label>
+                </div>
+            </th>
+            <th>
+                <div id="id_status">{{ form.status }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="from-group">
+                    <label for="id_clients">Клиент</label>
+                </div>
+            </th>
+            <th>
+                <div class="from-group">
+                    <label for="id_message">Сообщение для рассылки</label>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div id="id_clients">{{ form.clients }}</div>
+            </th>
+            <th>
+                <div id="id_message">{{ form.message }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+                <a class="btn btn-secondary" href="{% url 'service_customer:mailing_list' %}">Отмена</a>
+            </th>
+        </tr>
+    </table>
+</form>
+{% endblock %}

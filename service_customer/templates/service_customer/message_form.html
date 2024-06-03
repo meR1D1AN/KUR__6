@@ -1,0 +1,28 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}{{ view.action }} Сообщение{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Создание Сообщения</h1>
+<form method="post">
+    {% csrf_token %}
+    <table class="table text-center">
+        <tr>
+            <th>Тема сообщения</th>
+            <th>{{ form.subject }}</th>
+        </tr>
+        <tr>
+            <th>Текст сообщения</th>
+            <th>{{ form.body }}</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+                <a class="btn btn-secondary" href="{% url 'service_customer:message_list' %}">Отмена</a>
+            </th>
+        </tr>
+    </table>
+</form>
+{% endblock %}

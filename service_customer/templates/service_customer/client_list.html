@@ -1,0 +1,43 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Клиенты сервиса рассылки{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Клиенты сервиса</h1>
+<table class="table table-hover text-center">
+    <thead>
+    <tr>
+        <th>Полное Ф.И.О.</th>
+        <th>Электронная почта</th>
+        <th>Комментарий</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for client in object_list %}
+    <tr>
+        <td>{{ client.full_name }}</td>
+        <td>{{ client.email }}</td>
+        <td>{{ client.comment }}</td>
+        <td>
+            <a class="btn btn-primary btn-sm"
+               href="{% url 'service_customer:client_detail' client.id %}">Просмотр</a>
+            <a class="btn btn-warning btn-sm"
+               href="{% url 'service_customer:client_update' client.id %}">Редактировать</a>
+            <a class="btn btn-danger btn-sm" href="{% url 'service_customer:client_delete' client.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <a class="btn btn-success" href="{% url 'service_customer:client_create' %}">Добавить нового клиента</a>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+{% endblock %}

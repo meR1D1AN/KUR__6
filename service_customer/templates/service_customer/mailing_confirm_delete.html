@@ -1,0 +1,24 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Удалить рассылку{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Удалить рассылку?</h1>
+<table class="table text-center">
+    <tr>
+        <th>Вы уверены, что хотите удалить рассылку</th>
+        <th><strong>ID "{{ mailing.id }}"</strong>?</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Подтвердить</button>
+                <a class="btn btn-secondary" href="{% url 'service_customer:mailing_list' %}">Отмена</a>
+            </form>
+        </th>
+    </tr>
+</table>
+{% endblock %}

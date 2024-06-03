@@ -1,0 +1,25 @@
+{% extends "service_customer/base.html" %}
+
+{% block title %}Детали сообщения{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Шаблон сообщения:</h1>
+<table class="table text-center">
+    <tr>
+        <th>Тема</th>
+        <th>{{ message.subject }}</th>
+    </tr>
+    <tr>
+        <th>Текст сообщения</th>
+        <th>{{ message.body }}</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <a class="btn btn-primary" href="{% url 'service_customer:message_update' message.id %}">Редактировать</a>
+            <a class="btn btn-danger" href="{% url 'service_customer:message_delete' message.id %}">Удалить</a>
+            <a class="btn btn-secondary" href="{% url 'service_customer:message_list' %}">Назад к списку</a>
+        </th>
+    </tr>
+</table>
+{% endblock %}
