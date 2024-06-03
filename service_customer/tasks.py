@@ -42,5 +42,5 @@ def send_mailing():
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(send_mailing, 'interval', seconds=10)
+    scheduler.add_job(send_mailing, 'interval', minutes=1)
     scheduler.start()
