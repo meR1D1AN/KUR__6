@@ -15,7 +15,7 @@
     {% for message in object_list %}
     <tr>
         <td>{{ message.subject }}</td>
-        <td>{{ message.body }}</td>
+        <td>{{ message.body|truncatechars:80 }}</td>
         <td>
             <a class="btn btn-primary btn-sm" href="{% url 'service_customer:message_detail' message.id %}">Просмотр</a>
             <a class="btn btn-warning btn-sm" href="{% url 'service_customer:message_update' message.id %}">Редактировать</a>

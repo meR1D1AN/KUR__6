@@ -41,7 +41,7 @@ class Mailing(models.Model):
     ]
 
     start_date = models.DateTimeField(default=datetime.now)
-    periodicity = models.CharField(max_length=50, choices=PERIODICITY_CHOICES, default='daily')
+    periodicity = models.CharField(max_length=50, choices=PERIODICITY_CHOICES, default=None)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='created')
     message = models.OneToOneField(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client, related_name='mailings')
@@ -51,7 +51,7 @@ class Mailing(models.Model):
         verbose_name_plural = 'Рассылки'
 
     def __str__(self):
-        return f"Mailing {self.id} - {self.status}"
+        return f"Рассылка {self.id} - {self.status}"
 
 
 class MailingAttempt(models.Model):
@@ -61,4 +61,4 @@ class MailingAttempt(models.Model):
     server_response = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Attempt {self.id} for Mailing {self.mailing.id}"
+        return f"Попытка {self.id} для рассылки {self.mailing.id}"
