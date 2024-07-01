@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('service_customer', '0007_alter_mailing_options'),
+        ("service_customer", "0007_alter_mailing_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mailing',
-            name='clients',
-            field=models.ManyToManyField(related_name='mailings', to='service_customer.client'),
+            model_name="mailing",
+            name="clients",
+            field=models.ManyToManyField(
+                related_name="mailings", to="service_customer.client"
+            ),
         ),
     ]

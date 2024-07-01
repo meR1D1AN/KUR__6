@@ -1,108 +1,125 @@
 import os
 from pathlib import Path
-
-sql_pass = os.environ.get("SQLPASS")
-sql_user = os.environ.get("SQLUSER")
-email_user = os.environ.get("EMAILHOSTUSER")
-email_password = os.environ.get("EMAILHOSTPASSWORD")
-email_host = os.environ.get("EMAILHOST")
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-vmsdd28czl0eo#zmkc(wc6q(x5qh5#)(11bdlq%%3in)5o$ump'
+dot_env = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_path=dot_env)
 
-DEBUG = True
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-ALLOWED_HOSTS = ['*']
+DEBUG = os.getenv("DEBUG", False) == "True"
+
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'service_customer',
-    'django_apscheduler',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "service_customer",
+    "django_apscheduler",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kur_6',
-        "USER": sql_user,
-        "PASSWORD": sql_pass,
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("SQL_DB_NAME"),
+        "USER": os.getenv("SQL_USER"),
+        "PASSWORD": os.getenv("SQL_PASS"),
+        "HOST": os.getenv("SQL_HOST"),
+        "PORT": os.getenv("SQL_PORT"),
     }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = "ru-ru"
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-EMAIL_HOST = email_host
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = email_user
-EMAIL_HOST_PASSWORD = email_password
+# AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+LOGIN_URL = "users:login"
+
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
+
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_SSL = os.getenv("EMAIL_SSL", False) == "True"
+EMAIL_USE_TLS = os.getenv("EMAIL_TLS", True) == "False"
+EMAIL_HOST_USER = os.getenv("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASS")
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CACHE_ENABLED = os.getenv("CACHE_ENABLED") == "True"
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv("CACHE_LOCATION"),
+        }
+    }

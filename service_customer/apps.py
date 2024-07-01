@@ -3,10 +3,11 @@ import time
 
 
 class ServiceCustomerConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'service_customer'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "service_customer"
 
     def ready(self):
-        from .tasks import start
+        from service_customer.services import start
+
         time.sleep(2)
         start()

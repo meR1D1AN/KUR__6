@@ -6,22 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('service_customer', '0002_alter_message_body_alter_message_subject'),
+        ("service_customer", "0002_alter_message_body_alter_message_subject"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='message',
-            options={'verbose_name': 'Сообщение', 'verbose_name_plural': 'Сообщения'},
+            name="message",
+            options={"verbose_name": "Сообщение", "verbose_name_plural": "Сообщения"},
         ),
         migrations.AlterField(
-            model_name='message',
-            name='body',
-            field=models.TextField(verbose_name='Текст'),
+            model_name="message",
+            name="body",
+            field=models.TextField(verbose_name="Текст"),
         ),
         migrations.AlterField(
-            model_name='message',
-            name='subject',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Тема'),
+            model_name="message",
+            name="subject",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Тема"),
         ),
     ]

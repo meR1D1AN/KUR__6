@@ -10,7 +10,7 @@ def send_mailing():
     zone = pytz.timezone(settings.TIME_ZONE)
     current_datetime = datetime.now(zone)
 
-    mailings = Mailing.objects.filter(start_date__lte=current_datetime).filter(status='created')
+    mailings = Mailing.objects.filter(start_date__lte=current_datetime).filter(status="created")
 
     for mailing in mailings:
         clients = mailing.clients.all()
@@ -23,24 +23,22 @@ def send_mailing():
                     recipient_list=[client.email],
                     fail_silently=False,
                 )
-                status = 'Успешная рассылка'
-                server_response = 'Электронное письмо успешно отправлено.'
+                status = "Успешная рассылка"
+                server_response = "Электронное письмо успешно отправлено."
             except Exception as e:
-                status = 'Отказ'
+                status = "Отказ"
                 server_response = str(e)
 
             MailingAttempt.objects.create(
-                mailing=mailing,
-                status=status,
-                server_response=server_response
+                mailing=mailing, status=status, server_response=server_response
             )
 
         # Обновление статуса рассылки
-        mailing.status = 'Рассылка завершена'
+        mailing.status = "Рассылка завершена"
         mailing.save()
 
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(send_mailing, 'interval', minutes=1)
+    scheduler.add_job(send_mailing, "interval", minutes=1)
     scheduler.start()

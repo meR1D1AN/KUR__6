@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('service_customer', '0008_alter_mailing_clients'),
+        ("service_customer", "0008_alter_mailing_clients"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mailing',
-            name='periodicity',
-            field=models.CharField(choices=[('daily', 'Каждый день'), ('weekly', 'Каждую неделю'), ('monthly', 'Каждый месяц')], default=None, max_length=50),
+            model_name="mailing",
+            name="periodicity",
+            field=models.CharField(
+                choices=[
+                    ("daily", "Каждый день"),
+                    ("weekly", "Каждую неделю"),
+                    ("monthly", "Каждый месяц"),
+                ],
+                default=None,
+                max_length=50,
+            ),
         ),
     ]

@@ -1,13 +1,20 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+    TemplateView,
+)
 
 from service_customer.models import *
 
 
 class HomeView(TemplateView):
-    template_name = 'service_customer/home.html'
+    template_name = "service_customer/home.html"
 
 
 # Client Views
@@ -21,25 +28,25 @@ class ClientDetailView(DetailView):
 
 class ClientCreateView(CreateView):
     model = Client
-    fields = ['email', 'full_name', 'comment']
+    fields = ["email", "full_name", "comment"]
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:client_list')
+        return reverse_lazy("service_customer:client_list")
 
 
 class ClientUpdateView(UpdateView):
     model = Client
-    fields = ['email', 'full_name', 'comment']
+    fields = ["email", "full_name", "comment"]
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:client_list')
+        return reverse_lazy("service_customer:client_list")
 
 
 class ClientDeleteView(DeleteView):
     model = Client
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:client_list')
+        return reverse_lazy("service_customer:client_list")
 
 
 # Message Views
@@ -53,25 +60,25 @@ class MessageDetailView(DetailView):
 
 class MessageCreateView(CreateView):
     model = Message
-    fields = ('subject', 'body')
+    fields = ("subject", "body")
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:message_list')
+        return reverse_lazy("service_customer:message_list")
 
 
 class MessageUpdateView(UpdateView):
     model = Message
-    fields = ('subject', 'body')
+    fields = ("subject", "body")
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:message_list')
+        return reverse_lazy("service_customer:message_list")
 
 
 class MessageDeleteView(DeleteView):
     model = Message
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:message_list')
+        return reverse_lazy("service_customer:message_list")
 
 
 # Mailing Views
@@ -85,44 +92,51 @@ class MailingDetailView(DetailView):
 
 class MailingCreateView(CreateView):
     model = Mailing
-    fields = ['start_date', 'periodicity', 'status', 'message', 'clients']
+    fields = ["start_date", "periodicity", "status", "message", "clients"]
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:mailing_list')
+        return reverse_lazy("service_customer:mailing_list")
 
     def post(self, request):
-        start_date = request.POST.get('start_date')
-        periodicity = request.POST.get('periodicity')
-        status = request.POST.get('status')
-        message_id = request.POST.get('message')
-        client_ids = request.POST.getlist('clients')
+        start_date = request.POST.get("start_date")
+        periodicity = request.POST.get("periodicity")
+        status = request.POST.get("status")
+        message_id = request.POST.get("message")
+        client_ids = request.POST.getlist("clients")
 
-        start_date = timezone.make_aware(datetime.strptime(start_date, '%Y-%m-%dT%H:%M'))
+        start_date = timezone.make_aware(
+            datetime.strptime(start_date, "%Y-%m-%dT%H:%M")
+        )
 
         message = Message.objects.get(id=message_id)
-        mailing = Mailing.objects.create(start_date=start_date, periodicity=periodicity, status=status, message=message)
+        mailing = Mailing.objects.create(
+            start_date=start_date,
+            periodicity=periodicity,
+            status=status,
+            message=message,
+        )
 
         for client_id in client_ids:
             client = Client.objects.get(id=client_id)
             mailing.clients.add(client)
 
         mailing.save()
-        return redirect('service_customer:mailing_list')
+        return redirect("service_customer:mailing_list")
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
-    fields = ['start_date', 'periodicity', 'status', 'message', 'clients']
+    fields = ["start_date", "periodicity", "status", "message", "clients"]
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:mailing_list')
+        return reverse_lazy("service_customer:mailing_list")
 
 
 class MailingDeleteView(DeleteView):
     model = Mailing
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:mailing_list')
+        return reverse_lazy("service_customer:mailing_list")
 
 
 class MailingAttemptListView(ListView):
@@ -137,4 +151,4 @@ class MailingAttemptDeleteView(DeleteView):
     model = MailingAttempt
 
     def get_success_url(self):
-        return reverse_lazy('service_customer:mailing_attempt_list')
+        return reverse_lazy("service_customer:mailing_attempt_list")

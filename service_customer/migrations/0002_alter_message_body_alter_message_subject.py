@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('service_customer', '0001_initial'),
+        ("service_customer", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='message',
-            name='body',
-            field=models.TextField(blank=True, null=True, verbose_name='Текст'),
+            model_name="message",
+            name="body",
+            field=models.TextField(blank=True, null=True, verbose_name="Текст"),
         ),
         migrations.AlterField(
-            model_name='message',
-            name='subject',
-            field=models.CharField(blank=True, max_length=255, null=True, unique=True, verbose_name='Тема'),
+            model_name="message",
+            name="subject",
+            field=models.CharField(
+                blank=True, max_length=255, null=True, unique=True, verbose_name="Тема"
+            ),
         ),
     ]

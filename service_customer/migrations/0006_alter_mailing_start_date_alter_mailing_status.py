@@ -7,18 +7,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('service_customer', '0005_alter_client_comment'),
+        ("service_customer", "0005_alter_client_comment"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mailing',
-            name='start_date',
+            model_name="mailing",
+            name="start_date",
             field=models.DateTimeField(default=datetime.datetime.now),
         ),
         migrations.AlterField(
-            model_name='mailing',
-            name='status',
-            field=models.CharField(choices=[('created', 'Создана'), ('started', 'Начата'), ('finished', 'Завершена')], default='created', max_length=50),
+            model_name="mailing",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("created", "Создана"),
+                    ("started", "Начата"),
+                    ("finished", "Завершена"),
+                ],
+                default="created",
+                max_length=50,
+            ),
         ),
     ]
