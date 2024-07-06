@@ -1,13 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
+
+NULLABLE = {"null": True, "blank": True}
 
 
 class Client(models.Model):
     email = models.EmailField(unique=True, verbose_name="Введите электронную почту")
     full_name = models.CharField(max_length=255, verbose_name="Полное Ф.И.О.")
-    comment = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name="Комментарий"
-    )
+    comment = models.CharField(max_length=255, **NULLABLE, verbose_name="Комментарий")
 
     class Meta:
         verbose_name = "Клиент"
@@ -40,11 +40,13 @@ class Mailing(models.Model):
         ("weekly", "Каждую неделю"),
         ("monthly", "Каждый месяц"),
     ]
-
-    start_date = models.DateTimeField(
-        default=datetime.now,
-        verbose_name="Дата и время начала рассылки"
-    )
+    ACTIVE_CHOICES = [
+        (True, 'Да'),
+        (False, 'Нет'),
+    ]
+    active = models.BooleanField(choices=ACTIVE_CHOICES, default=True, verbose_name="Активна ли подписка")
+    start_date = models.DateTimeField(default=datetime.now, verbose_name="Дата и время начала рассылки")
+    last_sent_date = models.DateTimeField(verbose_name="Дата и время последней рассылки", **NULLABLE)
     periodicity = models.CharField(
         max_length=50,
         choices=PERIODICITY_CHOICES,
@@ -57,12 +59,8 @@ class Mailing(models.Model):
         verbose_name="Статус рассылки",
         default="created",
     )
-    message = models.ForeignKey(
-        Message, on_delete=models.CASCADE, verbose_name="Сообщение"
-    )
-    clients = models.ManyToManyField(
-        Client, related_name="mailings", verbose_name="Клиенты"
-    )
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name="Сообщение")
+    clients = models.ManyToManyField(Client, related_name="mailings", verbose_name="Клиенты")
 
     class Meta:
         verbose_name = "Рассылка"
@@ -70,6 +68,15 @@ class Mailing(models.Model):
 
     def __str__(self):
         return f"Рассылка {self.id} - {self.status}"
+
+    def periodicity_timedelta(self):
+        if self.periodicity == "daily":
+            return timedelta(seconds=10)
+            # return timedelta(days=1)
+        elif self.periodicity == "weekly":
+            return timedelta(weeks=1)
+        elif self.periodicity == "monthly":
+            return timedelta(days=30)
 
 
 class MailingAttempt(models.Model):
@@ -80,9 +87,7 @@ class MailingAttempt(models.Model):
         auto_now_add=True, verbose_name="Дата и время начала рассылки"
     )
     status = models.CharField(max_length=50, verbose_name="Статус рассылки")
-    server_response = models.TextField(
-        blank=True, null=True, verbose_name="Ответ сервера"
-    )
+    server_response = models.TextField(**NULLABLE, verbose_name="Ответ сервера")
 
     class Meta:
         verbose_name = "Попытка рассылки"

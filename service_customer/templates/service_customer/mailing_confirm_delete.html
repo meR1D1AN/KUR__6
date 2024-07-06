@@ -3,20 +3,21 @@
 {% block title %}Удалить рассылку{% endblock %}
 
 {% block content %}
-
 <h1 class="text-center">Удалить рассылку?</h1>
-<table class="table text-center">
+<table class="table text-center align-middle">
     <tr>
-        <th>Вы уверены, что хотите удалить рассылку</th>
-        <th><strong>ID "{{ mailing.id }}"</strong>?</th>
+        <th class="col-8 text-end">Вы уверены, что хотите удалить рассылку:</th>
+        <th class="col-4"><strong>ID "{{ mailing.id }}"</strong>?</th>
     </tr>
     <tr>
         <th></th>
         <th>
             <form method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Подтвердить</button>
-                <a class="btn btn-secondary" href="{% url 'service_customer:mailing_list' %}">Отмена</a>
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <button type="submit" class="btn btn-danger btn-sm w-100">Удалить</button>
+                    <a class="btn btn-secondary btn-sm w-100" href="{% url 'service_customer:mailing_list' %}">Отмена</a>
+                </div>
             </form>
         </th>
     </tr>

@@ -3,20 +3,21 @@
 {% block title %}Удалить сообщение{% endblock %}
 
 {% block content %}
-
-<h1 class="text-center">Удаление клиента</h1>
-<table class="table text-center">
+<h1 class="text-center">Удаление сообщения</h1>
+<table class="table text-center align-middle">
     <tr>
-        <th>Вы уверены, что хотите удалить сообщение</th>
-        <th><strong>"{{ message.subject }}"</strong>?</th>
+        <th class="col-8 text-end">Вы уверены, что хотите удалить сообщение:</th>
+        <th class="col-4"><strong>"{{ message.subject }}"</strong>?</th>
     </tr>
     <tr>
         <th></th>
         <th>
             <form method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Удалить</button>
-                <a class="btn btn-secondary" href="{% url 'service_customer:message_list' %}">Отмена</a>
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <button type="submit" class="btn btn-danger btn-sm w-100">Удалить</button>
+                    <a class="btn btn-secondary btn-sm w-100" href="{% url 'service_customer:message_list' %}">Отмена</a>
+                </div>
             </form>
         </th>
     </tr>

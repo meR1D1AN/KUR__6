@@ -92,13 +92,19 @@ class MailingDetailView(DetailView):
 
 class MailingCreateView(CreateView):
     model = Mailing
-    fields = ["start_date", "periodicity", "status", "message", "clients"]
+    fields = ["start_date", "periodicity", "status", "message", "clients", "active"]
 
     def get_success_url(self):
         return reverse_lazy("service_customer:mailing_list")
 
     def post(self, request):
+        active = request.POST.get("active")
+        if active == "on":
+            active = True
+        else:
+            active = False
         start_date = request.POST.get("start_date")
+        last_sent_date = request.POST.get("last_sent_date")
         periodicity = request.POST.get("periodicity")
         status = request.POST.get("status")
         message_id = request.POST.get("message")
@@ -110,7 +116,9 @@ class MailingCreateView(CreateView):
 
         message = Message.objects.get(id=message_id)
         mailing = Mailing.objects.create(
+            active=active,
             start_date=start_date,
+            last_sent_date=last_sent_date,
             periodicity=periodicity,
             status=status,
             message=message,
@@ -126,7 +134,7 @@ class MailingCreateView(CreateView):
 
 class MailingUpdateView(UpdateView):
     model = Mailing
-    fields = ["start_date", "periodicity", "status", "message", "clients"]
+    fields = ["start_date", "periodicity", "status", "message", "clients", "active"]
 
     def get_success_url(self):
         return reverse_lazy("service_customer:mailing_list")

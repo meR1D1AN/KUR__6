@@ -5,33 +5,43 @@
 {% block content %}
 
 <h1 class="text-center">Сообщения</h1>
-<table class="table table-hover text-center">
-    <tr>
-        <th>Тема</th>
-        <th>Текст</th>
-        <th>Действия</th>
-    </tr>
-    <tbody>
-    {% for message in object_list %}
-    <tr>
-        <td>{{ message.subject }}</td>
-        <td>{{ message.body|truncatechars:80 }}</td>
-        <td>
-            <a class="btn btn-primary btn-sm" href="{% url 'service_customer:message_detail' message.id %}">Просмотр</a>
-            <a class="btn btn-warning btn-sm" href="{% url 'service_customer:message_update' message.id %}">Редактировать</a>
-            <a class="btn btn-danger btn-sm" href="{% url 'service_customer:message_delete' message.id %}">Удалить</a>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-    <tfoot>
-    <tr>
-        <td></td>
-        <td></td>
-        <td>
-            <a class="btn btn-success" href="{% url 'service_customer:message_create' %}">Добавить новое сообщение</a>
-        </td>
-    </tr>
-    </tfoot>
-</table>
+<div class="row">
+    <table class="table table-hover text-center">
+        <tr>
+            <th class="col-3">Тема</th>
+            <th class="col-7">Текст</th>
+            <th class="col-2">Действия</th>
+        </tr>
+        <tbody>
+        {% for message in object_list %}
+        <tr>
+            <td>{{ message.subject|truncatechars:30 }}</td>
+            <td>{{ message.body|truncatechars:80 }}</td>
+            <td>
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <a class="btn btn-primary btn-sm w-100"
+                       href="{% url 'service_customer:message_detail' message.id %}">Просмотр</a>
+                    <a class="btn btn-warning btn-sm w-100"
+                       href="{% url 'service_customer:message_update' message.id %}">Редактировать</a>
+                    <a class="btn btn-danger btn-sm w-100"
+                       href="{% url 'service_customer:message_delete' message.id %}">Удалить</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <a class="btn btn-success btn-sm " href="{% url 'service_customer:message_create' %}">Добавить
+                        новое сообщение</a>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
 {% endblock %}

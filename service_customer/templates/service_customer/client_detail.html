@@ -4,25 +4,27 @@
 
 {% block content %}
 <h1 class="text-center">Клиент: {{ client.full_name }}</h1>
-<table class="table text-center">
+<table class="table text-center align-middle">
     <tr>
-        <th>Полное Ф.И.О.</th>
-        <th>{{ client.full_name }}</th>
+        <th class="col-8 text-end">Полное Ф.И.О.:</th>
+        <th class="col-4">{{ client.full_name }}</th>
     </tr>
     <tr>
-        <th>Адрес электронной почты:</th>
+        <th class="text-end">Адрес электронной почты:</th>
         <th>{{ client.email }}</th>
     </tr>
     <tr>
-        <th>Комментарий:</th>
+        <th class="text-end">Комментарий:</th>
         <th>{{ client.comment }}</th>
     </tr>
     <tr>
         <th></th>
         <th>
-            <a class="btn btn-primary" href="{% url 'service_customer:client_update' client.id %}">Редактировать</a>
-            <a class="btn btn-danger" href="{% url 'service_customer:client_delete' client.id %}">Удалить</a>
-            <a class="btn btn-secondary" href="{% url 'service_customer:client_list' %}">Назад к списку</a>
+            <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                <a class="btn btn-warning btn-sm w-100" href="{% url 'service_customer:client_update' client.id %}">Редактировать</a>
+                <a class="btn btn-danger btn-sm w-100" href="{% url 'service_customer:client_delete' client.id %}">Удалить</a>
+                <a class="btn btn-secondary btn-sm w-100" href="{% url 'service_customer:client_list' %}">Назад к списку</a>
+            </div>
         </th>
     </tr>
 </table>
