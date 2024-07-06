@@ -35,23 +35,19 @@ class Mailing(models.Model):
         ("started", "Начата"),
         ("finished", "Завершена"),
     ]
+    # день = 1440 минут, неделя = 10080 минут, месяц = 43200 минут
     PERIODICITY_CHOICES = [
-        ("daily", "Каждый день"),
-        ("weekly", "Каждую неделю"),
-        ("monthly", "Каждый месяц"),
+        (1440, "Каждый день"),
+        (10080, "Каждую неделю"),
+        (43200, "Каждый месяц"),
     ]
-    ACTIVE_CHOICES = [
-        (True, 'Да'),
-        (False, 'Нет'),
-    ]
-    active = models.BooleanField(choices=ACTIVE_CHOICES, verbose_name="Активна ли рассылка")
+    active = models.BooleanField(verbose_name="Активна ли рассылка", blank=False)
     start_date = models.DateTimeField(default=datetime.now, verbose_name="Дата и время начала рассылки")
     last_sent_date = models.DateTimeField(verbose_name="Дата и время последней рассылки", **NULLABLE)
-    periodicity = models.CharField(
-        max_length=50,
+    periodicity = models.IntegerField(
         choices=PERIODICITY_CHOICES,
         verbose_name="Периодичность рассылки",
-        default="daily",
+        default="1440",
     )
     status = models.CharField(
         max_length=50,
@@ -67,16 +63,7 @@ class Mailing(models.Model):
         verbose_name_plural = "Рассылки"
 
     def __str__(self):
-        return f"Рассылка {self.id} - {self.status}"
-
-    def periodicity_timedelta(self):
-        if self.periodicity == "daily":
-            return timedelta(seconds=60)
-            # return timedelta(days=1)
-        elif self.periodicity == "weekly":
-            return timedelta(weeks=1)
-        elif self.periodicity == "monthly":
-            return timedelta(days=30)
+        return f"Рассылка {self.id} - {self.get_status_display()}"
 
 
 class MailingAttempt(models.Model):

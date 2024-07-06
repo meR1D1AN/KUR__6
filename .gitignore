@@ -159,3 +159,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 .env
+!/service_customer/services_old.py
+!/service_customer/services_new.py

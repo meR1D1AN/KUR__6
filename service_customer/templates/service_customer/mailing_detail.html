@@ -32,7 +32,12 @@
     </tr>
     <tr>
         <th class="text-end">Активна ли подписка?</th>
-        <td>{{ mailing.get_active_display }}</td>
+        <td>{% if mailing.active == True %}
+                Да
+            {% else %}
+                Нет
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <th></th>

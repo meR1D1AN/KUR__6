@@ -7,6 +7,16 @@ class ServiceCustomerConfig(AppConfig):
     name = "service_customer"
 
     def ready(self):
-        from service_customer.services import start
+        from service_customer.services import start_scheduler
         time.sleep(2)
-        start()
+        start_scheduler()
+#
+# from django.apps import AppConfig
+#
+#
+# class ServiceCustomerConfig(AppConfig):
+#     default_auto_field = "django.db.models.BigAutoField"
+#     name = "service_customer"
+#
+#     def ready(self):
+#         pass
