@@ -44,7 +44,7 @@ class Mailing(models.Model):
         (True, 'Да'),
         (False, 'Нет'),
     ]
-    active = models.BooleanField(choices=ACTIVE_CHOICES, default=True, verbose_name="Активна ли подписка")
+    active = models.BooleanField(choices=ACTIVE_CHOICES, verbose_name="Активна ли рассылка")
     start_date = models.DateTimeField(default=datetime.now, verbose_name="Дата и время начала рассылки")
     last_sent_date = models.DateTimeField(verbose_name="Дата и время последней рассылки", **NULLABLE)
     periodicity = models.CharField(
@@ -71,7 +71,7 @@ class Mailing(models.Model):
 
     def periodicity_timedelta(self):
         if self.periodicity == "daily":
-            return timedelta(seconds=10)
+            return timedelta(seconds=60)
             # return timedelta(days=1)
         elif self.periodicity == "weekly":
             return timedelta(weeks=1)

@@ -7,6 +7,6 @@ class ServiceCustomerConfig(AppConfig):
     name = "service_customer"
 
     def ready(self):
-        from service_customer.services1 import start
+        from service_customer.services import start
         time.sleep(2)
         start()

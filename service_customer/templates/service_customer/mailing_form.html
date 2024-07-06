@@ -62,13 +62,19 @@
         </tr>
         <tr>
             <th class="text-end">
-                Активна ли подписка?
+                Активна ли рассылка?
+            </th>
+            <th>
                 {{ form.active }}
             </th>
+        </tr>
+        <tr>
+            <th></th>
             <th>
                 <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
                     <button type="submit" class="btn btn-success btn-sm w-100">Сохранить</button>
-                    <a class="btn btn-secondary btn-sm w-100" href="{% url 'service_customer:mailing_list' %}">Отмена</a>
+                    <a class="btn btn-secondary btn-sm w-100"
+                       href="{% url 'service_customer:mailing_list' %}">Отмена</a>
                 </div>
             </th>
         </tr>

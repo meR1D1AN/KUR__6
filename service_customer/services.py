@@ -13,6 +13,9 @@ def send_mailing():
     mailings = Mailing.objects.filter(start_date__lte=current_datetime).filter(status="created").filter(active=True)
 
     for mailing in mailings:
+        if not mailing.active:
+            mailing.status = "finished"
+            continue
         clients = mailing.clients.all()
         for client in clients:
             # Проверьте, прошло ли указанное время с момента последней рассылки
@@ -26,7 +29,7 @@ def send_mailing():
                         recipient_list=[client.email],
                         fail_silently=False,
                     )
-                    status = "Успешная рассылка"
+                    status = "started"
                     server_response = "Электронное письмо успешно отправлено."
                 except Exception as e:
                     status = "Отказ"
@@ -40,9 +43,9 @@ def send_mailing():
                 mailing.last_sent_date = current_datetime
                 mailing.save()
 
-        # Обновления статуса рассылки
-        mailing.status = "started"
-        mailing.save()
+                # Обновления статуса рассылки
+                mailing.status = "started"
+                mailing.save()
 
 
 def start():
