@@ -1,5 +1,5 @@
 from django import forms
-from service_customer.models import Client, Mailing, MailingAttempt
+from service_customer.models import Client, Mailing, Message, MailingAttempt
 
 
 class StyleFormMixin:
@@ -11,7 +11,31 @@ class StyleFormMixin:
                 field.widget.attrs['class'] = 'form-control'
 
 
-class MailingForm(forms.ModelForm):
+class ClientForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Client
+        exclude = ('owner',)
+
+
+class MailingAttemptForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = MailingAttempt
+        exclude = ('owner',)
+
+
+class MailingForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Mailing
-        fields = ['active', 'start_date', 'last_sent_date', 'periodicity', 'status', 'message', 'clients']
+        exclude = ('owner',)
+
+
+class ManagerMailingForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Mailing
+        fields = ('status',)
+
+
+class MessageForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Message
+        exclude = ('owner',)

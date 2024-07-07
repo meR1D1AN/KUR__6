@@ -16,6 +16,7 @@ django-apscheduler = "^0.6.2"
 python-dotenv = "^1.0.1"
 redis = "^5.0.7"
 black = "^24.4.2"
+pytils = "^0.4.1"
 
 
 [build-system]

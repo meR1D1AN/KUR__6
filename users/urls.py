@@ -7,6 +7,8 @@ from users.views import (
     ProfileView,
     verify,
     PasswordResetView,
+    toggle_activity,
+    UserListView,
 )
 
 app_name = UsersConfig.name
@@ -17,5 +19,7 @@ urlpatterns = [
     path("login/", LoginView.as_view(template_name="users/login.html"), name="login"),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
     path("profile/", ProfileView.as_view(), name="profile"),
+    path("users_list/", UserListView.as_view(), name="users_list"),
     path("reset_password/", PasswordResetView.as_view(), name="reset_password"),
+    path("toggle_activity/<int:pk>/", toggle_activity, name="toggle_activity"),
 ]

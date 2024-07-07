@@ -1,0 +1,31 @@
+{% extends "service_customer/base.html" %}
+{% block content %}
+<h1 class="text-center">Главная страница сервиса рассылки</h1>
+<div class="row">
+    <table class="table table-hover text-center align-middle">
+        <tbody>
+        <tr>
+            <th class="col-6 text-end">Количество рассылок всего:</th>
+            <th class="col-6 text-start">{{ total_mailings }}</th>
+        </tr>
+        <tr>
+            <th class="col-6 text-end">Количество активных рассылок:</th>
+            <th class="col-6 text-start">{{ active_mailings }}</th>
+        </tr>
+        <tr>
+            <th class="col-6 text-end">Количество уникальных клиентов для рассылок:</th>
+            <th class="col-6 text-start">{{ unique_clients }}</th>
+        </tr>
+        <tr>
+            <th class="col-6 text-end">Три случайные статьи из блога</th>
+            <th class="col-6 text-start">
+                {% for article in random_articles %}
+                <li>{{ article.title }}</li>
+                {% endfor %}
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

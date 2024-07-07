@@ -1,3 +1,4 @@
+import smtplib
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from django.core.mail import send_mail
@@ -30,12 +31,13 @@ def send_mailing():
                 )
                 status = "Успешная рассылка"
                 server_response = "Электронное письмо успешно отправлено."
-            except Exception as e:
+
+            except smtplib.SMTPException as e:
                 status = "Отказ"
                 server_response = str(e)
 
             MailingAttempt.objects.create(
-                mailing=mailing, status=status, server_response=server_response
+                mailing=mailing, status=status, server_response=server_response, owner=mailing.owner
             )
 
         # Обновление статуса рассылки и даты последней рассылки
@@ -63,12 +65,13 @@ def send_mailing():
                     )
                     status = "Успешная рассылка"
                     server_response = "Электронное письмо успешно отправлено."
-                except Exception as e:
+
+                except smtplib.SMTPException as e:
                     status = "Отказ"
                     server_response = str(e)
 
                 MailingAttempt.objects.create(
-                    mailing=mailing, status=status, server_response=server_response
+                    mailing=mailing, status=status, server_response=server_response, owner=mailing.owner
                 )
 
             # Обновление даты последней рассылки

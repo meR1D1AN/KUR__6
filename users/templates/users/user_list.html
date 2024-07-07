@@ -1,0 +1,56 @@
+{% extends "service_customer/base.html" %}
+{% block content %}
+<h1 class="text-center">Главная страница сервиса рассылки</h1>
+<div class="row">
+    <table class="table table-hover text-center align-middle">
+        <thead>
+        <tr>
+            <th>@Email</th>
+            <th>Телефон</th>
+            <th>Статус</th>
+            <th>Персонал</th>
+            <th class="col-2">Изменение статуса</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in object_list %}
+        <tr>
+            <td>{{ user.email }}</td>
+            <td>{% if user.phone == None %}
+                Не заполнен
+                {% else %}
+                {{ user.phone }}
+                {% endif %}
+            </td>
+            <td>{% if user.is_active == True %}
+                Активен
+                {% else %}
+                Не активен
+                {% endif %}
+            </td>
+            <td>{% if user.is_staff == True %}
+                Да
+                {% else %}
+                Нет
+                {% endif %}
+            </td>
+            <td>{% if perms.users.deactivate_user %}
+                {% if user.is_active %}
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <a href="{% url 'users:toggle_activity' user.pk %}"
+                       class="btn btn-sm btn-outline-danger w-100">Деактивировать</a>
+                </div>
+                {% else %}
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <a href="{% url 'users:toggle_activity' user.pk %}"
+                       class="btn btn-sm btn-outline-success w-100">Активировать</a>
+                {% endif %}
+                {% endif %}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

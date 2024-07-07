@@ -1,0 +1,122 @@
+[
+  {
+    "model": "service_customer.client",
+    "pk": 1,
+    "fields": {
+      "email": "kp@gklifts.ru",
+      "full_name": "Никит",
+      "comment": "1111",
+      "owner": 2
+    }
+  },
+  {
+    "model": "service_customer.client",
+    "pk": 2,
+    "fields": {
+      "email": "nikita@gklifts.ru",
+      "full_name": "testo",
+      "comment": "111",
+      "owner": 3
+    }
+  },
+  {
+    "model": "service_customer.client",
+    "pk": 4,
+    "fields": {
+      "email": "anginike@yandex.ru",
+      "full_name": "тот еще чёрт",
+      "comment": null,
+      "owner": 2
+    }
+  },
+  {
+    "model": "service_customer.message",
+    "pk": 1,
+    "fields": {
+      "subject": "test 1",
+      "body": "test 11",
+      "owner": 2
+    }
+  },
+  {
+    "model": "service_customer.message",
+    "pk": 2,
+    "fields": {
+      "subject": "test 2",
+      "body": "test 2",
+      "owner": 2
+    }
+  },
+  {
+    "model": "service_customer.message",
+    "pk": 3,
+    "fields": {
+      "subject": "testo",
+      "body": "testo",
+      "owner": 3
+    }
+  },
+  {
+    "model": "service_customer.message",
+    "pk": 4,
+    "fields": {
+      "subject": "для черта",
+      "body": "черт",
+      "owner": 2
+    }
+  },
+  {
+    "model": "service_customer.mailing",
+    "pk": 2,
+    "fields": {
+      "active": true,
+      "start_date": "2024-07-07T08:50:00Z",
+      "last_sent_date": null,
+      "periodicity": 1440,
+      "status": "started",
+      "message": 1,
+      "owner": 3,
+      "clients": [
+        2
+      ]
+    }
+  },
+  {
+    "model": "service_customer.mailing",
+    "pk": 11,
+    "fields": {
+      "active": true,
+      "start_date": "2024-07-07T11:32:00Z",
+      "last_sent_date": "2024-07-07T11:32:31.043Z",
+      "periodicity": 1440,
+      "status": "started",
+      "message": 2,
+      "owner": 2,
+      "clients": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "service_customer.mailingattempt",
+    "pk": 3,
+    "fields": {
+      "mailing": 2,
+      "attempt_date": "2024-07-07T08:50:16.935Z",
+      "status": "Успешная рассылка",
+      "server_response": "Электронное письмо успешно отправлено.",
+      "owner": null
+    }
+  },
+  {
+    "model": "service_customer.mailingattempt",
+    "pk": 13,
+    "fields": {
+      "mailing": 11,
+      "attempt_date": "2024-07-07T11:32:31.611Z",
+      "status": "Успешная рассылка",
+      "server_response": "Электронное письмо успешно отправлено.",
+      "owner": 2
+    }
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "model": "blog.blogarticle",
+    "pk": 1,
+    "fields": {
+      "title": "Test",
+      "slug": "test",
+      "body": "test",
+      "preview": "",
+      "created_at": "2024-07-07T12:11:48.930Z",
+      "is_published": true,
+      "views_count": 2
+    }
+  },
+  {
+    "model": "blog.blogarticle",
+    "pk": 2,
+    "fields": {
+      "title": "тут тоже тест",
+      "slug": "tut-tozhe-test",
+      "body": "текст тестовый",
+      "preview": "",
+      "created_at": "2024-07-07T12:26:16.960Z",
+      "is_published": true,
+      "views_count": 0
+    }
+  },
+  {
+    "model": "blog.blogarticle",
+    "pk": 3,
+    "fields": {
+      "title": "тест 333",
+      "slug": "test-333",
+      "body": "текоутеоукт",
+      "preview": "",
+      "created_at": "2024-07-07T12:26:25.845Z",
+      "is_published": true,
+      "views_count": 0
+    }
+  }
+]

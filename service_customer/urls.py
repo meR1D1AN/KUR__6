@@ -4,7 +4,7 @@ from service_customer.views import *
 app_name = "service_customer"
 
 urlpatterns = [
-    path("", ClientListView.as_view(), name="home"),
+    path("", HomeView.as_view(), name="home"),
     # Client URLs
     path("clients/", ClientListView.as_view(), name="client_list"),
     path("clients/<int:pk>/", ClientDetailView.as_view(), name="client_detail"),

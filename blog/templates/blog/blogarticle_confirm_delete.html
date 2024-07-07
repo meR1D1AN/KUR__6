@@ -1,0 +1,25 @@
+{% extends "service_customer/base.html" %}
+{% block title %}Удалить запись{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Удалить рассылку?</h1>
+<table class="table text-center align-middle">
+    <tr>
+        <th class="col-8 text-end">Вы уверены, что хотите удалить рассылку:</th>
+        <th class="col-4"><strong>{{ object.title }}</strong>?</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <form method="post">
+                {% csrf_token %}
+                <div class="btn-group btn-group-justified d-flex justify-content-center" role="group">
+                    <button type="submit" class="btn btn-danger btn-sm w-100">Удалить</button>
+                    <a class="btn btn-secondary btn-sm w-100" href="{% url 'blog:list' %}">Отмена</a>
+                </div>
+            </form>
+        </th>
+    </tr>
+</table>
+
+{% endblock %}
