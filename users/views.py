@@ -87,10 +87,10 @@ class PasswordResetView(FormView):
 
 class UserListView(PermissionRequiredMixin, ListView):
     model = User
-    permission_required = 'users.view_all_users'
+    permission_required = "users.view_all_users"
 
 
-@permission_required('users.deactivate_user')
+@permission_required("users.deactivate_user")
 def toggle_activity(request, pk):
     user = User.objects.get(pk=pk)
     if user.is_active:
@@ -98,4 +98,4 @@ def toggle_activity(request, pk):
     else:
         user.is_active = True
     user.save()
-    return redirect(reverse('users:users_list'))
+    return redirect(reverse("users:users_list"))

@@ -12,7 +12,9 @@ def send_mailing():
     current_datetime = datetime.now(zone)
 
     # Завершение рассылок, которые стали неактивными
-    inactive_mailings = Mailing.objects.filter(active=False, status__in=["created", "started"])
+    inactive_mailings = Mailing.objects.filter(
+        active=False, status__in=["created", "started"]
+    )
     for mailing in inactive_mailings:
         mailing.status = "finished"
         mailing.save()
@@ -37,7 +39,10 @@ def send_mailing():
                 server_response = str(e)
 
             MailingAttempt.objects.create(
-                mailing=mailing, status=status, server_response=server_response, owner=mailing.owner
+                mailing=mailing,
+                status=status,
+                server_response=server_response,
+                owner=mailing.owner,
             )
 
         # Обновление статуса рассылки и даты последней рассылки
@@ -71,7 +76,10 @@ def send_mailing():
                     server_response = str(e)
 
                 MailingAttempt.objects.create(
-                    mailing=mailing, status=status, server_response=server_response, owner=mailing.owner
+                    mailing=mailing,
+                    status=status,
+                    server_response=server_response,
+                    owner=mailing.owner,
                 )
 
             # Обновление даты последней рассылки

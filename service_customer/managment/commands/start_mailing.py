@@ -9,7 +9,7 @@ from service_customer.models import Mailing, MailingAttempt
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        mailings = Mailing.objects.filter(status='Запущена')
+        mailings = Mailing.objects.filter(status="Запущена")
 
         for mailing in mailings:
             clients = mailing.clients.all()
@@ -29,5 +29,8 @@ class Command(BaseCommand):
                 server_response = str(e)
 
             MailingAttempt.objects.create(
-                mailing=mailing, status=status, server_response=server_response, owner=mailing.owner
+                mailing=mailing,
+                status=status,
+                server_response=server_response,
+                owner=mailing.owner,
             )

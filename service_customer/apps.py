@@ -8,5 +8,6 @@ class ServiceCustomerConfig(AppConfig):
 
     def ready(self):
         from service_customer.services import start_scheduler
+
         time.sleep(2)
         start_scheduler()

@@ -1,6 +1,12 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
 from pytils.translit import slugify
 
 from blog.forms import BlogArticleForm
@@ -12,10 +18,11 @@ class BlogArticleCreateView(PermissionRequiredMixin, CreateView):
     """
     Контроллер, который отвечает за создание статьи блога
     """
+
     model = BlogArticle
     form_class = BlogArticleForm
-    success_url = reverse_lazy('blog:list')
-    permission_required = 'blog.add_blogarticle'
+    success_url = reverse_lazy("blog:list")
+    permission_required = "blog.add_blogarticle"
 
     def form_valid(self, form):
         if form.is_valid():
@@ -29,6 +36,7 @@ class BlogArticleListView(ListView):
     """
     Контроллер, который отвечает за просмотр списка статей блога
     """
+
     model = BlogArticle
 
     def get_queryset(self, *args, **kwargs):
@@ -40,6 +48,7 @@ class BlogArticleDetailView(DetailView):
     """
     Контроллер, который отвечает за просмотр статьи блога
     """
+
     model = BlogArticle
 
     def get_object(self, queryset=None):
@@ -53,9 +62,10 @@ class BlogArticleUpdateView(PermissionRequiredMixin, UpdateView):
     """
     Контроллер, который отвечает за редактирование статьи блога
     """
+
     model = BlogArticle
     form_class = BlogArticleForm
-    permission_required = 'blog.change_blogarticle'
+    permission_required = "blog.change_blogarticle"
 
     def form_valid(self, form):
         if form.is_valid():
@@ -65,13 +75,14 @@ class BlogArticleUpdateView(PermissionRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:view', args=[self.kwargs.get('pk')])
+        return reverse("blog:view", args=[self.kwargs.get("pk")])
 
 
 class BlogArticleDeleteView(PermissionRequiredMixin, DeleteView):
     """
     Контроллер, который отвечает за удаление статьи блога
     """
+
     model = BlogArticle
-    success_url = reverse_lazy('blog:list')
-    permission_required = 'blog.delete_blogarticle'
+    success_url = reverse_lazy("blog:list")
+    permission_required = "blog.delete_blogarticle"

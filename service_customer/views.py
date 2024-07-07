@@ -12,7 +12,12 @@ from django.views.generic import (
     TemplateView,
 )
 
-from service_customer.forms import ClientForm, MessageForm, MailingForm, ManagerMailingForm
+from service_customer.forms import (
+    ClientForm,
+    MessageForm,
+    MailingForm,
+    ManagerMailingForm,
+)
 from service_customer.models import *
 from blog.models import BlogArticle
 
@@ -22,14 +27,14 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_mailings'] = Mailing.objects.count()
-        context['active_mailings'] = Mailing.objects.filter(active=True).count()
-        context['unique_clients'] = Client.objects.distinct().count()
+        context["total_mailings"] = Mailing.objects.count()
+        context["active_mailings"] = Mailing.objects.filter(active=True).count()
+        context["unique_clients"] = Client.objects.distinct().count()
 
         # Получение трех случайных статей из блога
         articles = BlogArticle.objects.all()
         random_articles = random.sample(list(articles), 3)
-        context['random_articles'] = random_articles
+        context["random_articles"] = random_articles
 
         return context
 
@@ -44,7 +49,7 @@ class ClientListView(LoginRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         queryset = super().get_queryset()
         user = self.request.user
-        if not user.is_superuser and not user.groups.filter(name='manager'):
+        if not user.is_superuser and not user.groups.filter(name="manager"):
             queryset = queryset.filter(owner=self.request.user)
         return queryset
 
@@ -111,7 +116,7 @@ class MessageListView(LoginRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         queryset = super().get_queryset()
         user = self.request.user
-        if not user.is_superuser and not user.groups.filter(name='manager'):
+        if not user.is_superuser and not user.groups.filter(name="manager"):
             queryset = queryset.filter(owner=self.request.user)
         return queryset
 
@@ -173,9 +178,9 @@ class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
 
     def get_queryset(self, queryset=None):
-        queryset = super().get_queryset().order_by('-id')
+        queryset = super().get_queryset().order_by("-id")
         user = self.request.user
-        if not user.is_superuser and not user.groups.filter(name='manager'):
+        if not user.is_superuser and not user.groups.filter(name="manager"):
             queryset = queryset.filter(owner=self.request.user)
         return queryset
 
@@ -186,7 +191,11 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         user = self.request.user
-        if not user.is_superuser and not user.groups.filter(name='manager') and user != self.object.owner:
+        if (
+            not user.is_superuser
+            and not user.groups.filter(name="manager")
+            and user != self.object.owner
+        ):
             raise PermissionDenied
         else:
             return self.object
@@ -218,7 +227,7 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user == self.object.owner or user.is_superuser:
             return MailingForm
-        elif user.has_perm('service_customer.deactivate_mailing'):
+        elif user.has_perm("service_customer.deactivate_mailing"):
             return ManagerMailingForm
         else:
             raise PermissionDenied
@@ -243,10 +252,10 @@ class MailingAttemptListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_superuser or user.groups.filter(name='manager').exists():
-            return MailingAttempt.objects.all().order_by('-id')
+        if user.is_superuser or user.groups.filter(name="manager").exists():
+            return MailingAttempt.objects.all().order_by("-id")
         else:
-            return MailingAttempt.objects.filter(owner=user).order_by('-id')
+            return MailingAttempt.objects.filter(owner=user).order_by("-id")
 
 
 class MailingAttemptDetailView(LoginRequiredMixin, DetailView):

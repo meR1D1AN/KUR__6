@@ -10,7 +10,9 @@ def send_mailing():
     zone = pytz.timezone(settings.TIME_ZONE)
     current_datetime = datetime.now(zone)
 
-    mailings = Mailing.objects.filter(start_date__lte=current_datetime).filter(status="created")
+    mailings = Mailing.objects.filter(start_date__lte=current_datetime).filter(
+        status="created"
+    )
 
     for mailing in mailings:
         clients = mailing.clients.all()

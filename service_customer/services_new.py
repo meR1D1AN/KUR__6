@@ -14,14 +14,21 @@ def send_mailing():
     zone = pytz.timezone(settings.TIME_ZONE)
     current_datetime = datetime.now(zone)
 
-    mailings = Mailing.objects.filter(start_date__lte=current_datetime).filter(status="created").filter(active=True)
+    mailings = (
+        Mailing.objects.filter(start_date__lte=current_datetime)
+        .filter(status="created")
+        .filter(active=True)
+    )
 
     for mailing in mailings:
         if mailing.active:
             clients = mailing.clients.all()
             for client in clients:
-                if mailing.last_sent_date is None or (
-                        current_datetime - mailing.last_sent_date) >= mailing.periodicity_timedelta():
+                if (
+                    mailing.last_sent_date is None
+                    or (current_datetime - mailing.last_sent_date)
+                    >= mailing.periodicity_timedelta()
+                ):
                     try:
                         send_mail(
                             subject=mailing.message.subject,
@@ -55,7 +62,9 @@ def send_mailing():
 def start_scheduler():
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), "default")
-    scheduler.add_job(send_mailing, "interval", seconds=60, id="send_mailing", replace_existing=True)
+    scheduler.add_job(
+        send_mailing, "interval", seconds=60, id="send_mailing", replace_existing=True
+    )
     register_events(scheduler)
     scheduler.start()
     logger.info("Scheduler started.")
